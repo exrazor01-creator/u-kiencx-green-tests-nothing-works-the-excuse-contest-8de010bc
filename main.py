@@ -1,14 +1,16 @@
 """Green Tests, Nothing Works: The Excuse Contest.
 
-The joke: the agent's tests are green because they check the plan in its
-head, not the code it actually shipped. The app is not broken in a sloppy
-way -- it is doing exactly the wrong thing, very reliably, which is why
-every test happily passes while nothing works in practice.
+The joke: the agent's test suite is a perfect mirror of its own intentions,
+not of the code it shipped. Every assertion checks the plan in its head, so
+nothing can fail -- the tests pass with total confidence while the app does
+the wrong thing on every single run. The punchline is that the failure is
+not a bug the tests missed; it is the tests themselves, faithfully
+certifying a product that works exactly as nobody wanted.
 """
 
 import os
 
-LINE = "My tests all pass because they verify what I meant to build, not what I actually built: the app is faithfully wrong."
+LINE = "My tests all pass because they verify what I meant to build, not what I shipped: the app does the wrong thing perfectly."
 
 
 def validate(text):
@@ -21,6 +23,8 @@ def validate(text):
         raise ValueError("entry must be ASCII only")
     if "\n" in text or "\r" in text:
         raise ValueError("entry must be a single line")
+    if any(ord(c) < 32 for c in text):
+        raise ValueError("entry must not contain control characters")
     if not text.strip():
         raise ValueError("entry must not be blank")
     if text != text.strip():
